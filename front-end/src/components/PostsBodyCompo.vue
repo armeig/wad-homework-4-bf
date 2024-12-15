@@ -14,14 +14,14 @@
       <p>Check out your feed</p>
     </div>
     <div id="buttonsContainer">
-      <div>
-        <button class="addPostButton" v-on:click="addPost">Add post</button>
-      </div>
-      <div>
-        <button class="deleteAllButton" v-on:click="deleteAll">
-          Delete all
-        </button>
-      </div>
+      <button
+        class="addPostButton"
+        @click="this.$router.push('/addpost')"
+        v-on:click="addPost"
+      >
+        Add post
+      </button>
+      <button class="deleteAllButton" v-on:click="deleteAll">Delete all</button>
     </div>
   </div>
 </template>
@@ -105,5 +105,14 @@ const likePost = (postId) => {
 
   min-width: 200px;
   min-height: 50px;
+}
+button {
+  background-color: #6a4d59;
+  padding: 10px;
+  border-radius: 5px;
+  color: #fffbfa;
+}
+button:hover {
+  background-color: #8a6d79;
 }
 </style>
