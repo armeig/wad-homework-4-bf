@@ -1,7 +1,7 @@
 <template>
   <div id="Container">
     <div>
-      <button class="logoutButton" v-on:click="logout">Logout</button>
+      <button class="logoutButton" @click="logout">Logout</button>
     </div>
     <div class="postCompo">
       <p>You're all caught up!</p>
@@ -27,6 +27,9 @@
 </template>
 
 <script setup>
+import { useRouter } from "vue-router"; // Import useRouter
+const router = useRouter(); // Get the router instance
+
 import { computed } from "vue";
 import { useStore } from "vuex";
 import PostCompo from "@/components/PostCompo.vue";
@@ -34,8 +37,24 @@ import PostCompo from "@/components/PostCompo.vue";
 const store = useStore();
 const postList = computed(() => store.state.postList);
 const logout = () => {
-  store.commit("logout");
+  fetch("http://localhost:3000/auth/logout", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include", // Include cookies if necessary
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      router.push("/Login"); // Navigate to login after signup
+    })
+    .catch((e) => {
+      console.log(e);
+      console.log("error");
+    });
 };
+
 const addPost = () => {
   store.commit("addPost");
 };

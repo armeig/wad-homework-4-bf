@@ -3,11 +3,23 @@
     <form @submit.prevent="handleSubmit">
       <div class="form-group">
         <label for="email">Email: </label>
-        <input id="email" v-model="email" type="email" @input="validateEmail" required />
+        <input
+          id="email"
+          v-model="email"
+          type="email"
+          @input="validateEmail"
+          required
+        />
       </div>
       <div class="form-group">
         <label for="password">Password: </label>
-        <input id="password" v-model="password" type="password" @input="validatePassword" required />
+        <input
+          id="password"
+          v-model="password"
+          type="password"
+          @input="validatePassword"
+          required
+        />
       </div>
       <p v-if="emailError" class="error">{{ emailError }}</p>
       <p v-if="errorMessages.length > 0" class="error">
@@ -18,12 +30,20 @@
       </p>
 
       <div class="button-row">
-        <button v-if="isSignup" type="submit" :disabled="emailError || errorMessages.length > 0" class="centered_btn">
+        <button
+          v-if="isSignup"
+          type="submit"
+          :disabled="emailError || errorMessages.length > 0"
+          class="centered_btn"
+        >
           Sign Up
         </button>
 
         <div v-if="!isSignup" class="button-group">
-          <button type="submit" :disabled="emailError || errorMessages.length > 0">
+          <button
+            type="submit"
+            :disabled="emailError || errorMessages.length > 0"
+          >
             Log In
           </button>
           <button type="button" @click="goToSignup">Sign Up</button>
@@ -97,9 +117,39 @@ export default {
     },
     handleSubmit() {
       if (this.isSignup) {
-        alert(
-          `Welcome! Your account with email ${this.email} has been created successfully.`,
-        );
+        console.log("APPPIIIII");
+        // Validate email and password before submitting
+        this.validateEmail();
+        this.validatePassword();
+
+        // If either validation fails, do not proceed
+        if (this.emailError || this.passwordError) {
+          return;
+        }
+
+        const data = {
+          email: this.email,
+          password: this.password,
+        };
+
+        // Send data to backend (POST request)
+        fetch("http://localhost:3000/auth/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // Include cookies if necessary
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            this.$router.push("/"); // Navigate to home after signup
+          })
+          .catch((e) => {
+            console.log(e);
+            console.log("error");
+          });
       } else {
         alert(`Welcome back! You are now logged in with email ${this.email}.`);
       }
