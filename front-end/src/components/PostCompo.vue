@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineEmits, useRouter } from "vue";
+import { defineProps, defineEmits } from "vue";
 
 const props = defineProps({
   post: {
@@ -10,19 +10,13 @@ const props = defineProps({
 
 const emit = defineEmits(["like-post"]);
 
-const router = useRouter();
-
 const likePost = () => {
   emit("like-post", props.post.id);
-};
-const redirectToPost = () => {
-  // Navigate to a post details page and pass the post ID
-  router.push({ name: "PostDetails", params: { id: props.post.id } });
 };
 </script>
 
 <template>
-  <div class="post" @click="redirectToPost">
+  <div class="post">
     <div class="accountDateContainer">
       <p class="account">{{ post.email }}</p>
       <!-- Updated to post.email -->
@@ -62,12 +56,14 @@ div {
   min-width: 220px;
   display: flex;
   flex-direction: column;
-  cursor: pointer; /* Indicates the post is clickable */
+  cursor: pointer;
+  /* Indicates the post is clickable */
   transition: background-color 0.2s ease-in-out;
 }
 
 .post:hover {
-  background-color: #fcdcd3; /* Slight highlight on hover */
+  background-color: #fcdcd3;
+  /* Slight highlight on hover */
 }
 
 .accountDateContainer {
