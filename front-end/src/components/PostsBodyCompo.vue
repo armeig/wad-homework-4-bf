@@ -5,12 +5,7 @@
     </div>
     <div class="postCompo">
       <p>You're all caught up!</p>
-      <PostCompo
-        v-for="post in postList"
-        :key="post.id"
-        :post="post"
-        @like-post="likePost"
-      />
+      <PostCompo v-for="post in postList" :key="post.id" :post="post" />
       <p>Check out your feed</p>
     </div>
     <div id="buttonsContainer">
@@ -27,7 +22,7 @@
 </template>
 
 <script>
-import PostCompo from "@/components/PostCompo.vue"; // Adjust the path if needed
+import PostCompo from "@/components/PostCompo.vue";
 
 export default {
   components: {
@@ -70,7 +65,7 @@ export default {
       this.$router.push("/addpost");
     },
 
-    // Delete all posts (assuming you have an API for this)
+    // Delete all posts
     async deleteAll() {
       try {
         const response = await fetch("http://localhost:3000/api/posts", {
@@ -82,12 +77,6 @@ export default {
       } catch (err) {
         console.error("Error deleting posts:", err);
       }
-    },
-
-    // Like a post function (placeholder)
-    likePost(postId) {
-      console.log(`Liked post with ID: ${postId}`);
-      // You can add logic to send a request to your backend to "like" a post
     },
   },
 
