@@ -41,6 +41,12 @@ const routes = [
     name: "apost",
     component: APostView,
   },
+  {
+    path: "/APost/:id",
+    name: "apost-detail",
+    component: APostView,
+    props: true,
+  },
   /*
   {
     path: "/ContactUs",
