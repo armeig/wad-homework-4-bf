@@ -56,12 +56,14 @@ div {
   min-width: 220px;
   display: flex;
   flex-direction: column;
-  cursor: pointer; /* Indicates the post is clickable */
+  cursor: pointer;
+  /* Indicates the post is clickable */
   transition: background-color 0.2s ease-in-out;
 }
 
 .post:hover {
-  background-color: #fcdcd3; /* Slight highlight on hover */
+  background-color: #fcdcd3;
+  /* Slight highlight on hover */
 }
 
 .accountDateContainer {
