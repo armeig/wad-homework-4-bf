@@ -57,6 +57,12 @@ const routes = [
       }
     },
   },
+  {
+    path: "/APost/:id",
+    name: "apost-detail",
+    component: APostView,
+    props: true,
+  },
   /*
   {
     path: "/ContactUs",

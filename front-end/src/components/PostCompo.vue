@@ -1,5 +1,8 @@
 <script setup>
 import { defineProps, defineEmits } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const props = defineProps({
   post: {
@@ -10,13 +13,18 @@ const props = defineProps({
 
 const emit = defineEmits(["like-post"]);
 
-const likePost = () => {
+const likePost = (event) => {
+  event.stopPropagation(); // Prevent bubbling to the parent click handler
   emit("like-post", props.post.id);
+};
+
+const navigateToPost = () => {
+  router.push({ name: "apost-detail", params: { id: props.post.id } });
 };
 </script>
 
 <template>
-  <div class="post">
+  <div class="post" @click="navigateToPost">
     <div class="accountDateContainer">
       <p class="account">{{ post.email }}</p>
       <!-- Updated to post.email -->
