@@ -144,7 +144,7 @@ app.post('/api/posts/', async(req, res) => {
         console.log("a post request has arrived");
         const post = req.body;
         const newpost = await pool.query(
-            "INSERT INTO posttable(title, body, urllink) values ($1, $2, $3)    RETURNING*", [post.title, post.body, post.urllink]
+            "INSERT INTO posttable(body, urllink, date) values ($1, $2, $3)    RETURNING*", [post.body, post.urllink, new Date()]
 // $1, $2, $3 are mapped to the first, second and third element of the passed array (post.title, post.body, post.urllink) 
 // The RETURNING keyword in PostgreSQL allows returning a value from the insert or update statement.
 // using "*" after the RETURNING keyword in PostgreSQL, will return everything
@@ -191,7 +191,7 @@ app.put('/api/posts/:id', async(req, res) => {
         const post = req.body;
         console.log("update request has arrived");
         const updatepost = await pool.query(
-            "UPDATE posttable SET (title, body, urllink) = ($2, $3, $4) WHERE id = $1", [id, post.title, post.body, post.urllink]
+            "UPDATE posttable SET (body, urllink, date) = ($2) WHERE id = $1", [id, post.body, post.urllink, new Date()]
         );
         res.json(updatepost);
     } catch (err) {
@@ -213,3 +213,14 @@ app.delete('/api/posts/:id', async(req, res) => {
     }
 }); 
 
+app.delete('/api/posts', async(req, res) => {
+    try {
+        console.log("delete all posts");
+        const deleteallposts = await pool.query(
+            "DELETE FROM posttable"
+        );
+        res.json(deleteallposts);
+    } catch (err) {
+        console.error(err.message);
+    }
+}); 

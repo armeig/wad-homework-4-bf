@@ -26,6 +26,7 @@
       <button type="submit" @click="this.$router.push('/signup')">
         Sign Up
       </button>
+      <p v-if="loginError" class="error">{{ loginError }}</p>
     </form>
   </div>
 </template>
@@ -38,6 +39,7 @@ export default {
       email: "",
       password: "",
       errorMessages: [],
+      loginError: "",
     };
   },
   methods: {
@@ -93,15 +95,21 @@ export default {
         credentials: "include", //  Don't forget to specify this if you need cookies
         body: JSON.stringify(data),
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Invalid credentials");
+          }
+          return response.json();
+        })
         .then((data) => {
-          console.log(data);
+          console.log("Login successful", data);
           //this.$router.push("/");
           location.assign("/");
         })
         .catch((e) => {
-          console.log(e);
-          console.log("error");
+          console.error("Error:", e);
+          this.loginError =
+            "Login failed. Please check your email and password.";
         });
     },
   },
