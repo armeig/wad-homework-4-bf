@@ -26,44 +26,75 @@
   </div>
 </template>
 
-<script setup>
-import { useRouter } from "vue-router"; // Import useRouter
-const router = useRouter(); // Get the router instance
+<script>
+import PostCompo from "@/components/PostCompo.vue"; // Adjust the path if needed
 
-import { computed } from "vue";
-import { useStore } from "vuex";
-import PostCompo from "@/components/PostCompo.vue";
-
-const store = useStore();
-const postList = computed(() => store.state.postList);
-const logout = () => {
-  fetch("http://localhost:3000/auth/logout", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
+export default {
+  components: {
+    PostCompo,
+  },
+  data() {
+    return {
+      postList: [], // This will hold the list of posts
+    };
+  },
+  methods: {
+    // Logout function
+    logout() {
+      fetch("http://localhost:3000/auth/logout", {
+        method: "GET",
+        credentials: "include",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          this.$router.push("/login"); // Redirect to login
+        })
+        .catch((e) => console.error(e));
     },
-    credentials: "include", // Include cookies if necessary
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      router.push("/Login"); // Navigate to login after signup
-    })
-    .catch((e) => {
-      console.log(e);
-      console.log("error");
-    });
-};
 
-const addPost = () => {
-  store.commit("addPost");
-};
-const deleteAll = () => {
-  store.commit("deleteAll");
-};
+    // Fetch posts from the backend
+    async fetchPosts() {
+      try {
+        const response = await fetch("http://localhost:3000/api/posts");
+        const data = await response.json();
+        console.log("Fetched posts:", data);
+        this.postList = data; // Update the reactive state with the fetched posts
+      } catch (err) {
+        console.error("Error fetching posts:", err);
+      }
+    },
 
-const likePost = (postId) => {
-  store.commit("IncreaseLike", postId);
+    // Add a new post (navigate to addpost page)
+    addPost() {
+      this.$router.push("/addpost");
+    },
+
+    // Delete all posts (assuming you have an API for this)
+    async deleteAll() {
+      try {
+        const response = await fetch("http://localhost:3000/api/posts", {
+          method: "DELETE",
+        });
+        const data = await response.json();
+        console.log("Deleted all posts:", data);
+        this.fetchPosts(); // Refresh posts after deletion
+      } catch (err) {
+        console.error("Error deleting posts:", err);
+      }
+    },
+
+    // Like a post function (placeholder)
+    likePost(postId) {
+      console.log(`Liked post with ID: ${postId}`);
+      // You can add logic to send a request to your backend to "like" a post
+    },
+  },
+
+  mounted() {
+    // Fetch posts when the component is mounted
+    this.fetchPosts();
+  },
 };
 </script>
 
@@ -106,12 +137,14 @@ const likePost = (postId) => {
   min-width: 200px;
   min-height: 50px;
 }
+
 button {
   background-color: #6a4d59;
   padding: 10px;
   border-radius: 5px;
   color: #fffbfa;
 }
+
 button:hover {
   background-color: #8a6d79;
 }
