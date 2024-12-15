@@ -3,23 +3,11 @@
     <form @submit.prevent="handleSubmit">
       <div class="form-group">
         <label for="email">Email: </label>
-        <input
-          id="email"
-          v-model="email"
-          type="email"
-          @input="validateEmail"
-          required
-        />
+        <input id="email" v-model="email" type="email" @input="validateEmail" required />
       </div>
       <div class="form-group">
         <label for="password">Password: </label>
-        <input
-          id="password"
-          v-model="password"
-          type="password"
-          @input="validatePassword"
-          required
-        />
+        <input id="password" v-model="password" type="password" @input="validatePassword" required />
       </div>
       <p v-if="emailError" class="error">{{ emailError }}</p>
       <p v-if="errorMessages.length > 0" class="error">
@@ -30,20 +18,12 @@
       </p>
 
       <div class="button-row">
-        <button
-          v-if="isSignup"
-          type="submit"
-          :disabled="emailError || errorMessages.length > 0"
-          class="centered_btn"
-        >
+        <button v-if="isSignup" type="submit" :disabled="emailError || errorMessages.length > 0" class="centered_btn">
           Sign Up
         </button>
 
         <div v-if="!isSignup" class="button-group">
-          <button
-            type="submit"
-            :disabled="emailError || errorMessages.length > 0"
-          >
+          <button type="submit" :disabled="emailError || errorMessages.length > 0">
             Log In
           </button>
           <button type="button" @click="goToSignup">Sign Up</button>
@@ -79,6 +59,12 @@ export default {
     },
     validatePassword() {
       const errors = [];
+      if (this.password.length < 8) {
+        errors.push(
+          "Password should be at least 8 chars and less than 15 chars.",
+        );
+      }
+      /*
       if (this.password.length < 8 || this.password.length > 14) {
         errors.push(
           "Password should be at least 8 chars and less than 15 chars.",
@@ -105,6 +91,7 @@ export default {
       if (!/_/.test(this.password)) {
         errors.push("Password must include the character '_'.");
       }
+      */
 
       this.errorMessages = errors;
     },
@@ -177,7 +164,8 @@ button:hover {
 
 .button-row {
   display: flex;
-  justify-content: space-between; /* Align buttons in row for Login */
+  justify-content: space-between;
+  /* Align buttons in row for Login */
   gap: 10px;
 }
 
@@ -186,7 +174,8 @@ button:hover {
 }
 
 .centered-btn {
-  margin: 0 auto; /* This centers the button */
+  margin: 0 auto;
+  /* This centers the button */
   display: block;
 }
 
