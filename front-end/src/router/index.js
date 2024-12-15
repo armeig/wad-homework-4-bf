@@ -35,11 +35,27 @@ const routes = [
     path: "/AddPost",
     name: "addpost",
     component: AddPostView,
+    beforeEnter: async (to, from, next) => {
+      let authResult = await auth.authenticated();
+      if (!authResult) {
+        next("/login");
+      } else {
+        next();
+      }
+    },
   },
   {
     path: "/APost",
     name: "apost",
     component: APostView,
+    beforeEnter: async (to, from, next) => {
+      let authResult = await auth.authenticated();
+      if (!authResult) {
+        next("/login");
+      } else {
+        next();
+      }
+    },
   },
   /*
   {

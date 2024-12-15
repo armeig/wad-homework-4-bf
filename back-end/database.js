@@ -5,7 +5,7 @@
      password: "wadbf",
      database: "WAD_BF",
      host: "localhost",
-     port: "5432"
+     port: "5433"
  });
 
 const execute = async (query) => {
