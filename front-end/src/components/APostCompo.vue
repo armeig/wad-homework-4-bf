@@ -42,10 +42,13 @@ export default {
         body: JSON.stringify(this.post),
       })
         .then((response) => {
-          console.log(response.data);
+          return response.json();
           // this.$router.push("/apost/" + this.post.id);
           // We are using the router instance of this element to navigate to a different URL location
-          this.$router.push("/api/allposts");
+        })
+        .then((data) => {
+          console.log("Post updated:", data); // Handle the updated post data
+          this.$router.push("/api/#"); // Redirect after the post is updated
         })
         .catch((e) => {
           console.log(e);
