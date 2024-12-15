@@ -1,11 +1,11 @@
 <template>
   <div class="addpost">
-    <form>
+    <form @submit.prevent="addPost">
       <div class="form-group">
         <label for="body">Body</label>
         <input name="body" id="body" required v-model="post.body" type="text" />
       </div>
-      <button @click="addPost" class="addPost">Add Post</button>
+      <button type="submit" class="addPost">Add Post</button>
     </form>
   </div>
 </template>
@@ -21,29 +21,37 @@ export default {
     };
   },
   methods: {
-    addPost() {
-      var data = {
-        title: this.post.title,
+    async addPost() {
+      if (!this.post.body.trim()) {
+        console.log("Body cannot be empty!");
+        return;
+      }
+
+      const data = {
         body: this.post.body,
-        urllink: this.post.urllink,
       };
-      // using Fetch - post method - send an HTTP post request to the specified URI with the defined body
-      fetch("http://localhost:3000/api/posts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-        .then((response) => {
-          console.log(response.data);
-          // redirect to /allposts view
-          this.$router.push("/api/allposts");
-        })
-        .catch((e) => {
-          console.log(e);
-          console.log("error");
+
+      try {
+        const response = await fetch("http://localhost:3000/api/posts", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
         });
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+
+        const result = await response.json();
+        console.log(result); // Log the response data
+        // Optionally redirect to /allposts view or clear the form.
+        this.$router.push("/"); // Assuming you want to navigate
+      } catch (error) {
+        console.error("Error:", error);
+        console.log("An error occurred while sending the post.");
+      }
     },
   },
 };
