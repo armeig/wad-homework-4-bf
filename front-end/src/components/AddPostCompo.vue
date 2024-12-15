@@ -1,26 +1,49 @@
 <template>
   <div class="addpost">
-    <form @submit.prevent="handleAddPost">
+    <form>
       <div class="form-group">
         <label for="body">Body</label>
-        <input id="body" v-model="text" type="text" required />
+        <input name="body" id="body" required v-model="post.body" type="text" />
       </div>
-      <button type="submit">Add</button>
+      <button @click="addPost" class="addPost">Add Post</button>
     </form>
   </div>
 </template>
 
 <script>
 export default {
+  name: "AddPost",
   data() {
     return {
-      text: "", // This will store the post's body text
+      post: {
+        body: "", // This will store the post's body text
+      },
     };
   },
   methods: {
-    handleAddPost() {
-      // Handle the post submission logic here (e.g., sending the post data to the server)
-      console.log("Post added:", this.text); // Just for demonstration, replace this with your logic
+    addPost() {
+      var data = {
+        title: this.post.title,
+        body: this.post.body,
+        urllink: this.post.urllink,
+      };
+      // using Fetch - post method - send an HTTP post request to the specified URI with the defined body
+      fetch("http://localhost:3000/api/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => {
+          console.log(response.data);
+          // redirect to /allposts view
+          this.$router.push("/api/allposts");
+        })
+        .catch((e) => {
+          console.log(e);
+          console.log("error");
+        });
     },
   },
 };

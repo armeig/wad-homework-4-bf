@@ -1,11 +1,7 @@
 <template>
   <div id="header">
     <nav>
-      <router-link to="/">Home</router-link>
-      <router-link to="/SignUp">SignUp</router-link>
-      <router-link to="/Login">Login</router-link>
-      <router-link to="/AddPost">Add post</router-link>
-      <router-link to="/APost">A post</router-link>
+      <router-link to="/Login">Home</router-link>
       <router-link to="/ContactUs">Contact us</router-link>
     </nav>
   </div>
