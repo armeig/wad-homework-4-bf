@@ -1,9 +1,9 @@
 // src/store/index.js
-import { createStore } from 'vuex';
+import { createStore } from "vuex";
 
 export default createStore({
-    state: {
-        /*
+  state: {
+    /*
         postList:[
             {id: 1, account: "@catLover123", postDate: "12.12.2023", PostText: "Look at my cute cat!", picInfo: require("../../public/images/kiisu.jpg"), likeCount: 0},
             {id: 2, account: "@teacherKaren", postDate: "17.12.2023", PostText: "Who left the lights on in the kitchen?!", picInfo: null, likeCount: 0},
@@ -17,9 +17,9 @@ export default createStore({
             {id: 10, account: "@teacherLaura", postDate: "09.12.2024", PostText: "Reminder: Exams start next week. Good luck!", picInfo: null, likeCount: 0}
 
         ]*/
-
-    },
-    mutations: {/*
+  },
+  mutations: {
+    /*
         IncreaseLike: (state, postId )=> {
             const post = state.postList.find(post => post.id === postId);
             if (post) {
@@ -32,9 +32,7 @@ export default createStore({
                 post.likeCount = 0;
             })
         }*/
-    },
-    actions: {},
-    getters: {}
+  },
+  actions: {},
+  getters: {},
 });
-
-

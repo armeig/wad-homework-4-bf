@@ -4,15 +4,15 @@ import { defineProps, defineEmits } from "vue";
 const props = defineProps({
   post: {
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const emit = defineEmits(["like-post"]);
 
 const likePost = () => {
   emit("like-post", props.post.id);
-}
+};
 </script>
 
 <template>
@@ -25,11 +25,15 @@ const likePost = () => {
       <h3>{{ post.PostText }}</h3>
     </div>
     <div v-if="post.picInfo !== null && post.picInfo !== undefined">
-      <img class="postPic" :src="post.picInfo">
+      <img class="postPic" :src="post.picInfo" />
     </div>
     <div class="likeContainer">
-      <img class="likeButton" src="../../public/images/like.png" @click="likePost">
-      <p>Likes: </p>
+      <img
+        class="likeButton"
+        src="../../public/images/like.png"
+        @click="likePost"
+      />
+      <p>Likes:</p>
       <p>{{ post.likeCount }}</p>
     </div>
   </div>
@@ -41,7 +45,7 @@ div {
 }
 
 .post {
-  background: #FFEFEB;
+  background: #ffefeb;
   margin: 5px;
   min-height: 10vh;
   /*for responsiveness*/
@@ -87,7 +91,6 @@ div {
   border-radius: 1rem;
 }
 
-
 .likeContainer {
   display: flex;
   justify-content: flex-end;
@@ -100,7 +103,7 @@ div {
   margin-top: 0;
 }
 
-.likeButton~p {
+.likeButton ~ p {
   margin: 10px;
   margin-left: 0px;
   place-self: center;

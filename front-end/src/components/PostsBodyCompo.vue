@@ -3,9 +3,14 @@
     <div>
       <button class="logoutButton" v-on:click="logout">Logout</button>
     </div>
-    <div class=postCompo>
+    <div class="postCompo">
       <p>You're all caught up!</p>
-      <PostCompo v-for="post in postList" :key="post.id" :post="post" @like-post="likePost" />
+      <PostCompo
+        v-for="post in postList"
+        :key="post.id"
+        :post="post"
+        @like-post="likePost"
+      />
       <p>Check out your feed</p>
     </div>
     <div id="buttonsContainer">
@@ -13,12 +18,13 @@
         <button class="addPostButton" v-on:click="addPost">Add post</button>
       </div>
       <div>
-        <button class="deleteAllButton" v-on:click="deleteAll">Delete all</button>
+        <button class="deleteAllButton" v-on:click="deleteAll">
+          Delete all
+        </button>
       </div>
     </div>
   </div>
 </template>
-
 
 <script setup>
 import { computed } from "vue";
@@ -28,20 +34,19 @@ import PostCompo from "@/components/PostCompo.vue";
 const store = useStore();
 const postList = computed(() => store.state.postList);
 const logout = () => {
-  store.commit('logout')
-}
+  store.commit("logout");
+};
 const addPost = () => {
-  store.commit('addPost')
-}
+  store.commit("addPost");
+};
 const deleteAll = () => {
-  store.commit('deleteAll')
-}
+  store.commit("deleteAll");
+};
 
 const likePost = (postId) => {
-  store.commit('IncreaseLike', postId)
-}
+  store.commit("IncreaseLike", postId);
+};
 </script>
-
 
 <style scoped>
 #Container {
@@ -54,7 +59,7 @@ const likePost = (postId) => {
 }
 
 .postCompo {
-  background: #D4C4CB;
+  background: #d4c4cb;
   padding: 5px;
   min-height: 75vh;
   margin-bottom: 20px;
@@ -70,10 +75,8 @@ const likePost = (postId) => {
   flex-direction: column-reverse;
 }
 
-
-
 .resetLikesButton {
-  background-color: #6A4D59;
+  background-color: #6a4d59;
   border-radius: 1rem;
   margin-bottom: 20px;
 

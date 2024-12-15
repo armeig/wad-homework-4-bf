@@ -1,5 +1,3 @@
-
-
 <template>
   <div id="header">
     <nav>
@@ -17,11 +15,10 @@ export default {
 </script>
 
 <style scoped>
-
-#header{
+#header {
   /*design*/
-  background: #D4C4CB;
-  box-shadow: 1px 2px 3px rgba(0,0,0,0.2);
+  background: #d4c4cb;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
   margin-top: 20px;
   margin-bottom: 20px;
   margin-left: 10px;
@@ -30,9 +27,7 @@ export default {
   border-radius: 1rem;
   /*Container properties*/
   display: flex;
-
 }
-
 
 nav {
   padding: 30px;
@@ -42,13 +37,12 @@ nav a {
   text-decoration: none;
   font-weight: bold;
   font-size: 20px;
-  color: #3C3C3C;
+  color: #3c3c3c;
   margin: 5px;
 }
 
 nav a.router-link-exact-active {
-  color: #6A4D59;
+  color: #6a4d59;
   text-decoration: underline;
 }
-
 </style>

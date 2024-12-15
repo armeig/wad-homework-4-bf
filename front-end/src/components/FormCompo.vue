@@ -1,124 +1,134 @@
 <template>
-    <div class="form-container">
-      <form @submit.prevent="handleSubmit">
-        <div class="form-group">
-          <label for="email">Email: </label>
-          <input
-            id="email"
-            v-model="email"
-            type="email"
-            @input="validateEmail"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="password">Password: </label>
-          <input
-            id="password"
-            v-model="password"
-            type="password"
-            @input="validatePassword"
-            required
-          />
-        </div>
-        <p v-if="emailError" class="error">{{ emailError }}</p>
-        <p v-if="errorMessages.length > 0" class="error">
-          The password is not valid:
-          <span v-for="(error, index) in errorMessages" :key="index">
-            {{ error }}<br />
-          </span>
-        </p>
-        
-        <div class="button-row"> 
-            <button
-                v-if="isSignup"
-                type="submit"
-                :disabled="emailError || errorMessages.length > 0"
-                class="centered_btn"
-            >
-                Sign Up
-            </button>
+  <div class="form-container">
+    <form @submit.prevent="handleSubmit">
+      <div class="form-group">
+        <label for="email">Email: </label>
+        <input
+          id="email"
+          v-model="email"
+          type="email"
+          @input="validateEmail"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="password">Password: </label>
+        <input
+          id="password"
+          v-model="password"
+          type="password"
+          @input="validatePassword"
+          required
+        />
+      </div>
+      <p v-if="emailError" class="error">{{ emailError }}</p>
+      <p v-if="errorMessages.length > 0" class="error">
+        The password is not valid:
+        <span v-for="(error, index) in errorMessages" :key="index">
+          {{ error }}<br />
+        </span>
+      </p>
 
-            <div v-if="!isSignup" class="button-group">
-                <button
-                    type="submit"
-                    :disabled="emailError || errorMessages.length > 0"
-                >
-                    Log In
-                </button>
-                <button type="button" @click="goToSignup">Sign Up</button>
-            </div>
+      <div class="button-row">
+        <button
+          v-if="isSignup"
+          type="submit"
+          :disabled="emailError || errorMessages.length > 0"
+          class="centered_btn"
+        >
+          Sign Up
+        </button>
+
+        <div v-if="!isSignup" class="button-group">
+          <button
+            type="submit"
+            :disabled="emailError || errorMessages.length > 0"
+          >
+            Log In
+          </button>
+          <button type="button" @click="goToSignup">Sign Up</button>
         </div>
-      </form>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    name: "FormComponent",
-    props: {
-      isSignup: {
-        type: Boolean,
-        default: false, // Default to false for login form
-      },
+      </div>
+    </form>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "FormComponent",
+  props: {
+    isSignup: {
+      type: Boolean,
+      default: false, // Default to false for login form
     },
-    data() {
-      return {
-        email: "",
-        password: "",
-        errorMessages: [],
-        emailError: "",
-      };
+  },
+  data() {
+    return {
+      email: "",
+      password: "",
+      errorMessages: [],
+      emailError: "",
+    };
+  },
+  methods: {
+    validateEmail() {
+      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+      this.emailError = emailRegex.test(this.email)
+        ? ""
+        : "Please enter a valid email address.";
     },
-    methods: {
-      validateEmail() {
-        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-        this.emailError = emailRegex.test(this.email)
-          ? ""
-          : "Please enter a valid email address.";
-      },
-      validatePassword() {
-        const errors = [];
-        if (this.password.length < 8 || this.password.length > 14) {
-          errors.push("Password should be at least 8 chars and less than 15 chars.");
-        }
-        if (!/[A-Z]/.test(this.password)) {
-          errors.push("Password must include at least one uppercase alphabet character.");
-        }
-        if ((this.password.match(/[a-z]/g) || []).length < 2) {
-          errors.push("Password must include at least two lowercase alphabet characters.");
-        }
-        if (!/\d/.test(this.password)) {
-          errors.push("Password must include at least one numeric value.");
-        }
-        if (!/^[A-Z]/.test(this.password)) {
-          errors.push("Password must start with an uppercase alphabet character.");
-        }
-        if (!/_/.test(this.password)) {
-          errors.push("Password must include the character '_'.");
-        }
-  
-        this.errorMessages = errors;
-      },
-      handleSubmit() {
-        if (this.isSignup) {
-          alert(`Welcome! Your account with email ${this.email} has been created successfully.`);
-        } else {
-          alert(`Welcome back! You are now logged in with email ${this.email}.`);
-        }
-        this.email = "";
-        this.password = "";
-        this.errorMessages = [];
-      },
-      goToSignup() {
-        // Handle navigation to Signup page if needed (e.g., using Vue Router)
-        this.$router.push("/signup"); // Assuming you are using Vue Router
-      },
+    validatePassword() {
+      const errors = [];
+      if (this.password.length < 8 || this.password.length > 14) {
+        errors.push(
+          "Password should be at least 8 chars and less than 15 chars.",
+        );
+      }
+      if (!/[A-Z]/.test(this.password)) {
+        errors.push(
+          "Password must include at least one uppercase alphabet character.",
+        );
+      }
+      if ((this.password.match(/[a-z]/g) || []).length < 2) {
+        errors.push(
+          "Password must include at least two lowercase alphabet characters.",
+        );
+      }
+      if (!/\d/.test(this.password)) {
+        errors.push("Password must include at least one numeric value.");
+      }
+      if (!/^[A-Z]/.test(this.password)) {
+        errors.push(
+          "Password must start with an uppercase alphabet character.",
+        );
+      }
+      if (!/_/.test(this.password)) {
+        errors.push("Password must include the character '_'.");
+      }
+
+      this.errorMessages = errors;
     },
-  };
-  </script>
-  
-  <style scoped>
+    handleSubmit() {
+      if (this.isSignup) {
+        alert(
+          `Welcome! Your account with email ${this.email} has been created successfully.`,
+        );
+      } else {
+        alert(`Welcome back! You are now logged in with email ${this.email}.`);
+      }
+      this.email = "";
+      this.password = "";
+      this.errorMessages = [];
+    },
+    goToSignup() {
+      // Handle navigation to Signup page if needed (e.g., using Vue Router)
+      this.$router.push("/signup"); // Assuming you are using Vue Router
+    },
+  },
+};
+</script>
+
+<style scoped>
 .form-container {
   max-width: 300px;
   margin: auto;
@@ -167,8 +177,8 @@ button:hover {
 
 .button-row {
   display: flex;
-  justify-content: space-between;  /* Align buttons in row for Login */
-  gap: 10px
+  justify-content: space-between; /* Align buttons in row for Login */
+  gap: 10px;
 }
 
 .button-group {
@@ -185,5 +195,3 @@ button:hover {
   color: #6a4d59;
 }
 </style>
-
-  

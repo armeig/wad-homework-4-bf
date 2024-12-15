@@ -1,6 +1,4 @@
-<script setup>
-
-</script>
+<script setup></script>
 
 <template>
   <div id="footer">
@@ -16,17 +14,14 @@
 </template>
 
 <style scoped>
-
 #footer {
-  background: #D4C4CB;
-  box-shadow: 1px 2px 3px rgba(0,0,0,0.2);
+  background: #d4c4cb;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
   padding: 10px 20px;
   border-radius: 1rem;
   /*Container properties*/
   display: flex;
   margin: 10px;
-
-
 }
 
 .innerContainer1 {

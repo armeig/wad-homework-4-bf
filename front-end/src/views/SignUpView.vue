@@ -10,13 +10,10 @@
 import SignUpCompo from "@/components/SignUpCompo.vue";
 </script>
 
-
 <style scoped>
-
 .compos {
   display: flex;
   flex-direction: column;
   min-height: 65vh;
 }
-
 </style>

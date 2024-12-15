@@ -213,7 +213,3 @@ app.delete('/api/posts/:id', async(req, res) => {
     }
 }); 
 
-
-app.listen(port, () => {
-    console.log("Server is listening to port " + port)
-});
