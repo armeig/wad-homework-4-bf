@@ -29,6 +29,7 @@ export default {
 
       const data = {
         body: this.post.body,
+        email: "example@email.com",
       };
 
       try {

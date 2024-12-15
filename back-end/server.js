@@ -139,78 +139,24 @@ app.get('/auth/logout', (req, res) => {
 
 
 app.post('/api/posts/', async (req, res) => {
-    try {
-        console.log("A POST request has arrived");
+    // Verify and decode the JWT to get user info (e.g., email)
+    // Get the post body from the request
+    const post = req.body;
 
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-        // Extract the token from the request cookies
-        const token = req.cookies.jwt;
-
-        if (!token) {
-            return res.status(401).send("Unauthorized: No token provided");
-        }
-
-        // Verify and decode the JWT to get user info (e.g., email)
-        jwt.verify(token, secret, async (err, decoded) => {
-            if (err) {
-                console.log("Token verification failed:", err.message);
-                return res.status(401).send("Unauthorized: Invalid token");
-            }
-
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
-            // Log the decoded token to check its contents
-            console.log("Decoded Token: ", decoded);
-
-            // Check if the decoded token contains the email
-            const userEmail = decoded.email;
-            if (!userEmail) {
-                return res.status(400).send("Bad Request: Email is not present in token");
-            }
-
-            // Get the post body from the request
-            const post = req.body;
-
-            // Ensure the body is present
-            if (!post.body) {
-                return res.status(400).send("Bad Request: Missing body");
-            }
-
-            // Insert the post into the database
-            const newpost = await pool.query(
-                "INSERT INTO posttable(email, body) VALUES ($1, $2) RETURNING *",
-                [userEmail, post.body] // Use the decoded email here
-            );
-
-            // Return the inserted post as a JSON response
-            res.json(newpost.rows[0]);
-        });
-    } catch (err) {
-        console.error("Error inserting post:", err.message);
-        res.status(500).send("Server Error");
+    // Ensure the body is present
+    if (!post.body) {
+        return res.status(400).send("Bad Request: Missing body");
     }
-});
+
+    // Insert the post into the database
+    const newpost = await pool.query(
+        "INSERT INTO posttable(email, body) VALUES ($1, $2) RETURNING *",
+        [post.email, post.body] // Use the decoded email here
+    );
+
+    // Return the inserted post as a JSON response
+    res.json(newpost.rows[0]);
+    });
 
 app.get('/api/posts', async(req, res) => {
     try {
@@ -243,6 +189,7 @@ app.get('/api/posts/:id', async(req, res) => {
 });
 
 app.put('/api/posts/:id', async(req, res) => {
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
     try {
         const { id } = req.params;
         const post = req.body;
@@ -257,6 +204,7 @@ app.put('/api/posts/:id', async(req, res) => {
 });
 
 app.delete('/api/posts/:id', async(req, res) => {
+    console.log("BBBBBBBBBBBBBBBB");
     try {
         const { id } = req.params;
         //const post = req.body; // we do not need a body for a delete request
@@ -271,6 +219,7 @@ app.delete('/api/posts/:id', async(req, res) => {
 }); 
 
 app.delete('/api/posts', async(req, res) => {
+    console.log("CCCCCCCCCCCCCCCC");
     try {
         console.log("delete all posts");
         const deleteallposts = await pool.query(
