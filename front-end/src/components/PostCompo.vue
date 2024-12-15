@@ -24,15 +24,16 @@ const redirectToPost = () => {
 <template>
   <div class="post" @click="redirectToPost">
     <div class="accountDateContainer">
-      <p class="account">{{ post.account }}</p>
-      <p class="date">{{ post.postDate }}</p>
+      <p class="account">{{ post.email }}</p>
+      <!-- Updated to post.email -->
+      <p class="date">{{ post.date }}</p>
+      <!-- Updated to post.date -->
     </div>
     <div class="postText">
-      <h3>{{ post.PostText }}</h3>
+      <h3>{{ post.body }}</h3>
+      <!-- Updated to post.body -->
     </div>
-    <div v-if="post.picInfo !== null && post.picInfo !== undefined">
-      <img class="postPic" :src="post.picInfo" />
-    </div>
+    <!-- Remove picInfo check as it's not part of the data -->
     <div class="likeContainer">
       <img
         class="likeButton"
@@ -40,12 +41,14 @@ const redirectToPost = () => {
         @click="likePost"
       />
       <p>Likes:</p>
-      <p>{{ post.likeCount }}</p>
+      <p>0</p>
+      <!-- Defaulted to 0 as likeCount doesn't exist -->
     </div>
   </div>
 </template>
 
 <style scoped>
+/* Your existing CSS styles remain unchanged */
 div {
   border-radius: 1rem;
 }
@@ -54,7 +57,6 @@ div {
   background: #ffefeb;
   margin: 5px;
   min-height: 10vh;
-  /*for responsiveness*/
   width: 90%;
   max-width: 900px;
   min-width: 220px;
@@ -94,13 +96,6 @@ div {
 .postText h3 {
   margin-top: 0px;
   margin-left: 10px;
-}
-
-.postPic {
-  height: auto;
-  width: 60%;
-  margin-bottom: 20px;
-  border-radius: 1rem;
 }
 
 .likeContainer {
